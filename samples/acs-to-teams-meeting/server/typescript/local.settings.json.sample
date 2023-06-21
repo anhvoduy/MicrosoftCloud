@@ -2,7 +2,7 @@
     "IsEncrypted": false,
     "Values": {
         "FUNCTIONS_WORKER_RUNTIME": "node",
-        "TENANT_ID": "cubeetapp.onmicrosoft.com",
+        "TENANT_ID": "f055188a-0916-40fd-aeed-2ba499834c94",
         "CLIENT_ID": "32443d0d-bc6f-4020-a655-ca7f117466f8",
         "CLIENT_SECRET": "lWv8Q~O6J~5vqo7TicnkpET9zgAiwD15v2qkCcZ3",
         "USER_ID": "2bb90954-9eb0-44f5-93e8-c36d96844fa9",
