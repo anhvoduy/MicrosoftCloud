@@ -101,3 +101,80 @@ Connect-AzAccount
     npm start
     ```
 
+### Azure Function App
+- https://acs-func-app-1001.azurewebsites.net/
+- https://acs-func-app-1001.azurewebsites.net/api/acstokenfunction
+- https://acs-func-app-1001.azurewebsites.net/api/teamsmeetingfunction
+
+- run powershell
+$GITHUB_USERNAME="anhvocap"
+$RESOURCE_GROUP="acsfuncapp1001"
+$ACR_NAME="aca"+$GITHUB_USERNAME
+$AZURE_FUNCTIONS_DOMAIN="https://acs-func-app-1001.azurewebsites.net/"
+
+az acr create --resource-group $RESOURCE_GROUP --name $ACR_NAME --sku Basic --admin-enabled true
+
+- result:
+{
+  "adminUserEnabled": true,
+  "anonymousPullEnabled": false,
+  "creationDate": "2023-06-21T10:24:18.421158+00:00",
+  "dataEndpointEnabled": false,
+  "dataEndpointHostNames": [],
+  "encryption": {
+    "keyVaultProperties": null,
+    "status": "disabled"
+  },
+  "id": "/subscriptions/cdabd2ea-478e-4a25-b5fa-1ec02238cdda/resourceGroups/acsfuncapp1001/providers/Microsoft.ContainerRegistry/registries/acaanhvocap",
+  "identity": null,
+  "location": "southeastasia",
+  "loginServer": "acaanhvocap.azurecr.io",
+  "name": "acaanhvocap",
+  "networkRuleBypassOptions": "AzureServices",
+  "networkRuleSet": null,
+  "policies": {
+    "azureAdAuthenticationAsArmPolicy": {
+      "status": "enabled"
+    },
+    "exportPolicy": {
+      "status": "enabled"
+    },
+    "quarantinePolicy": {
+      "status": "disabled"
+    },
+    "retentionPolicy": {
+      "days": 7,
+      "lastUpdatedTime": "2023-06-21T10:24:26.604869+00:00",
+      "status": "disabled"
+    },
+    "softDeletePolicy": {
+      "lastUpdatedTime": "2023-06-21T10:24:26.604869+00:00",
+      "retentionDays": 7,
+      "status": "disabled"
+    },
+    "trustPolicy": {
+      "status": "disabled",
+      "type": "Notary"
+    }
+  },
+  "privateEndpointConnections": [],
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": "Enabled",
+  "resourceGroup": "acsfuncapp1001",
+  "sku": {
+    "name": "Basic",
+    "tier": "Basic"
+  },
+  "status": null,
+  "systemData": {
+    "createdAt": "2023-06-21T10:24:18.421158+00:00",
+    "createdBy": "anh.vo@cubeet.ai",
+    "createdByType": "User",
+    "lastModifiedAt": "2023-06-21T10:24:18.421158+00:00",
+    "lastModifiedBy": "anh.vo@cubeet.ai",
+    "lastModifiedByType": "User"
+  },
+  "tags": {},
+  "type": "Microsoft.ContainerRegistry/registries",
+  "zoneRedundancy": "Disabled"
+}
