@@ -1,14 +1,17 @@
-import { AzureCommunicationTokenCredential, CommunicationUserIdentifier } from '@azure/communication-common';
+import {
+  AzureCommunicationTokenCredential, 
+  CommunicationUserIdentifier 
+} from '@azure/communication-common';
 import {  
-  CallComposite, 
-  fromFlatCommunicationIdentifier, 
-  useAzureCommunicationCallAdapter 
+  CallComposite,
+  fromFlatCommunicationIdentifier,
+  useAzureCommunicationCallAdapter
 } from '@azure/communication-react';
 import React, { useState, useMemo, useEffect } from 'react';
 import './App.css';
 
-const App = () => { 
-  const displayName = 'Guest'
+const App = () => {
+  const displayName = 'Guest';
   const [userId, setUserId] = useState<string>('');
   const [token, setToken] = useState<string>('');
   const [teamsMeetingLink, setTeamsMeetingLink] = useState<string>('');
