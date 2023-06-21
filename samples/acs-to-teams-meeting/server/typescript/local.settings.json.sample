@@ -1,0 +1,19 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+        "FUNCTIONS_WORKER_RUNTIME": "node",
+        "TENANT_ID": "cubeetapp.onmicrosoft.com",
+        "CLIENT_ID": "32443d0d-bc6f-4020-a655-ca7f117466f8",
+        "CLIENT_SECRET": "lWv8Q~O6J~5vqo7TicnkpET9zgAiwD15v2qkCcZ3",
+        "USER_ID": "2bb90954-9eb0-44f5-93e8-c36d96844fa9",
+        "ACS_CONNECTION_STRING": "endpoint=https://acs-cubeet-team-employee.communication.azure.com/;accesskey=toegid5VV1H2r84NGijTFBcCPbZMpl1wxXZ/ZZNMiFPddUcybth4E32DcXvLynx6CLw0GY6xLT7rX/mvOZiA1w=="
+    },
+    "Host": {
+        "LocalHttpPort": 7071,
+        "CORS": "*",
+        "CORSCredentials": false
+    },
+    "watchDirectories": [
+        "Shared"
+    ]
+}
