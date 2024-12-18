@@ -1,22 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 
-import { SorterService } from '../core/sorter.service';
-import { EventBusService, Events } from 'src/app/core/eventbus.service';
-import { DataService } from '../core/data.service';
+import { SorterService } from '@core/sorter.service';
+import { EventBusService, Events } from '@core/eventbus.service';
+import { DataService } from '@core/data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PhonePipe } from '../shared/phone.pipe';
 import { EmailSmsDialogData } from '../email-sms-dialog/email-sms-dialog-data';
 import { EmailSmsDialogComponent } from '../email-sms-dialog/email-sms-dialog.component';
 import { Subscription } from 'rxjs';
-import { FeatureFlagsService } from '../core/feature-flags.service';
+import { FeatureFlagsService } from '@core/feature-flags.service';
 import { Phone } from '../shared/interfaces';
 import { DynamicPipe } from '../shared/dynamic.pipe';
 import { TitleCaseUnderscorePipe } from '../shared/titlecase-underscore.pipe';
 import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgFor } from '@angular/common';
 import { FilterTextboxComponent } from '../shared/filter-textbox.component';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -25,7 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
     templateUrl: './customers-list.component.html',
     styleUrls: ['./customers-list.component.scss'],
     standalone: true,
-    imports: [MatIconModule, FilterTextboxComponent, NgIf, NgFor, MatButtonModule, 
+    imports: [MatIconModule, FilterTextboxComponent, MatButtonModule, 
         MatMenuModule, FormsModule, TitleCaseUnderscorePipe, DynamicPipe]
 })
 export class CustomersListComponent implements OnInit, OnDestroy {
@@ -48,7 +47,7 @@ export class CustomersListComponent implements OnInit, OnDestroy {
     filteredData: any[] = [];
     queryText = 'Get the total revenue for all orders. Group by company and include the city.';
     phonePipe = new PhonePipe();
-    private subscriptions: Subscription[] = [];
+    subscription = new Subscription();
     @Output() customerSelected = new EventEmitter<any>();
 
     dialog = inject(MatDialog);
@@ -62,7 +61,7 @@ export class CustomersListComponent implements OnInit, OnDestroy {
      }
 
     getData() {
-        this.subscriptions.push(
+        this.subscription.add(
             this.dataService.getCustomers().subscribe((data: any[]) => this.data = this.filteredData = data)
         );
     }
@@ -73,7 +72,7 @@ export class CustomersListComponent implements OnInit, OnDestroy {
     }
 
     getQueryData() {
-        this.subscriptions.push(
+        this.subscription.add(
             this.dataService.generateSql(this.queryText).subscribe((data: any) => {
                 this.data = data;
             })
@@ -86,10 +85,6 @@ export class CustomersListComponent implements OnInit, OnDestroy {
 
     sort(prop: string) {
         this.sorterService.sort(this.filteredData, prop);
-    }
-
-    trackBy(index: number, data: any) {
-        return data.id;
     }
 
     getRelatedData(data: any) {
@@ -118,7 +113,7 @@ export class CustomersListComponent implements OnInit, OnDestroy {
             });
 
             // Subscribe to the dialog afterClosed observable to get the dialog result
-            this.subscriptions.push(
+            this.subscription.add(
                 dialogRef.afterClosed().subscribe((response: EmailSmsDialogData) => {
                     console.log('SMS dialog result:', response);
                     if (response) {
@@ -133,6 +128,6 @@ export class CustomersListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
+        this.subscription.unsubscribe();
     }
 }

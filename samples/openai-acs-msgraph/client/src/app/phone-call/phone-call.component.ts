@@ -2,9 +2,8 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, On
 import { CallClient, CallAgent, Call } from "@azure/communication-calling";
 import { AzureCommunicationTokenCredential } from '@azure/communication-common';
 import { Subscription } from 'rxjs';
-import { AcsUser } from '../shared/interfaces';
-import { AcsService } from '../core/acs.service';
-import { NgFor } from '@angular/common';
+import { AcsUser } from '@shared/interfaces';
+import { AcsService } from '@core/acs.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +16,7 @@ declare const ACS_CONNECTION_STRING: string;
     templateUrl: './phone-call.component.html',
     styleUrls: ['./phone-call.component.scss'],
     standalone: true,
-    imports: [FormsModule, MatButtonModule, MatIconModule, NgFor, ]
+    imports: [FormsModule, MatButtonModule, MatIconModule]
 })
 export class PhoneCallComponent implements OnInit, OnDestroy {
   inCall = false;
@@ -27,7 +26,7 @@ export class PhoneCallComponent implements OnInit, OnDestroy {
   dialerVisible = false;
   numbers: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '0', ' '];
   cursorPosition = 0;
-  subscriptions: Subscription[] = [];
+  subscription = new Subscription();
 
   @Input() customerPhoneNumber = '';
   @Output() hangup = new EventEmitter();
@@ -39,7 +38,7 @@ export class PhoneCallComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     if (ACS_CONNECTION_STRING) {
-      this.subscriptions.push(
+      this.subscription.add(
         this.acsService.getAcsToken().subscribe(async (user: AcsUser) => {
           const callClient = new CallClient();
           const tokenCredential = new AzureCommunicationTokenCredential(user.token);
@@ -70,6 +69,15 @@ export class PhoneCallComponent implements OnInit, OnDestroy {
     console.log('Calling: ', this.customerPhoneNumber);
     console.log('Call id: ', this.call?.id);
     this.inCall = true;
+
+    // Adding event handlers to monitor call state
+    this.call?.on('stateChanged', () => {
+      console.log('Call state changed: ', this.call?.state);
+      if (this.call?.state === 'Disconnected') {
+        console.log('Call ended. Reason: ', this.call.callEndReason);
+        this.inCall = false;
+      }
+    });
   }
 
   endCall() {
@@ -95,7 +103,7 @@ export class PhoneCallComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
 }
